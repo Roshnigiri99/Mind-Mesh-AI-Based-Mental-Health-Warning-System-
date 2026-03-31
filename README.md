@@ -49,12 +49,14 @@ MIND MESH/
 
 To run this project on your system, follow these steps:
 * First, install all required dependencies:
+```
   pip install -r requirements.txt
-
+```
 * Next, set your Groq API key as an environment variable:
  For Windows PowerShell:
+```
 $env:GROQ_API_KEY="your_api_key_here"
-
+```
 ## 🧪 Training the Model
 
 To train the machine learning model, navigate to the `src` folder and run:
@@ -75,14 +77,17 @@ Once the server starts, open your browser and visit: http://localhost:8501
 
 ## 🤖 Testing AI Advice (Optional)
 To test the AI-based advice generation separately:
+```
 cd src
 python test_groq.py
-
+```
 ## 💻 Command Line Interface (CLI)
 
 Run the model directly from terminal:
+```
 cd cli
 python predict_mental_health.py "I feel very stressed and anxious"
+```
 **Example Output**
 Predicted Mental Health Condition: Anxiety
 Suggested Coping Mechanism: Try deep breathing, meditation, or journaling.
@@ -101,9 +106,10 @@ It provides:
 These resources offer techniques to **calm the mind, reduce anxiety, and improve overall well-being**.
 
 ## 🤖 Test AI Advice (Optional)
+```
 cd src
 python test_groq.py
-
+```
 ## 📊 Dataset
 
 Dataset sourced from Kaggle with labeled mental health statements such as Depression, Anxiety, Stress, and Normal.
