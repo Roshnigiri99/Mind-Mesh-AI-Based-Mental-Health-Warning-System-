@@ -59,6 +59,7 @@ $env:GROQ_API_KEY="your_api_key_here"
 ```
 ## 🧪 Training the Model
 Make a folder models
+
 To train the machine learning model, navigate to the `src` folder and run:
 ```
 cd src
