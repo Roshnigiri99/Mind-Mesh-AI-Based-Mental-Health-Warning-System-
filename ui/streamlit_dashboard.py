@@ -15,6 +15,7 @@ LOGO_PATH = os.path.join(BASE_DIR, "data", "logo.png")
 
 sys.path.append(SRC_PATH)
 from groq_helper import generate_advice
+from sentiment_analysis import analyze_sentiment
 
 # ----------------------------
 # PAGE CONFIG
@@ -50,9 +51,8 @@ header[data-testid="stHeader"] {
     max-width: 100vw !important;
 }
 
-/* Inject Title Text into the Native Header */
 header[data-testid="stHeader"]::after {
-    content: "🧠 MIND MESH: AI-Based Mental Health Warning System";
+    content: " MIND MESH: Depression Detection & Support System";
     position: absolute;
     left: 50%;
     top: 50%;
@@ -404,7 +404,7 @@ menu = st.sidebar.radio("Navigation", ["Analyze", "About", "Resources"], label_v
 # ----------------------------
 if menu == "Analyze":
 
-    st.markdown("<h3>📝 Enter Your Thoughts </h3>", unsafe_allow_html=True)
+    st.markdown("<h3>📝 What are you feeling right now? Share your thoughts with us. </h3>", unsafe_allow_html=True)
     text = st.text_area("", height=300)
     analyze_btn = st.button("🔍 Analyze Mental State")
 
@@ -413,7 +413,14 @@ if menu == "Analyze":
             st.warning("Please enter a statement")
         else:
             with st.spinner("Analyzing your mental state..."):
-                prediction = model.predict([text])[0]
+                cleaned_text = text.lower().strip()
+                sentiment = analyze_sentiment(cleaned_text)
+                prediction = model.predict([cleaned_text])[0]
+                # Override obvious wrong outputs
+                if sentiment == "Positive":
+                    prediction = "Normal"
+                elif sentiment == "Negative" and prediction == "Normal":
+                    prediction = "Depression"
 
                 # Prediction section (compact horizontal layout)
                 st.subheader("🧠 Prediction")
@@ -443,7 +450,7 @@ if menu == "Analyze":
                 except:
                     st.error("AI advice unavailable")
 
- 
+
 
 # ----------------------------
 # ABOUT PAGE
