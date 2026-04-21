@@ -46,9 +46,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 # -------------------------------
 print("Training model...")
 pipeline = Pipeline([
-    ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1,2))),
+    ("tfidf", TfidfVectorizer( max_features=7000,ngram_range=(1,2),stop_words="english")),
     ("classifier", LinearSVC(class_weight='balanced'))  # important for imbalance
 ])
+
 
 pipeline.fit(X_train, y_train)
 
