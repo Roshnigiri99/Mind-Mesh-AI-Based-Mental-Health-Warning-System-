@@ -1,28 +1,43 @@
+# 🧠 Mind Mesh: AI-Based Mental Health Warning System
+
 ## 📖 Introduction
-This project is an AI-powered mental health analysis system designed to understand and interpret user statements. It uses Machine Learning and Natural Language Processing (NLP) to classify mental health conditions and provide meaningful support.
-The system predicts the mental health category of user input, performs sentiment analysis, explains predictions, generates AI-based advice, and includes data analysis (EDA) along with a resource section for mental well-being.
+Mind Mesh is an AI-powered mental health analysis system designed to understand and interpret user statements. It uses Machine Learning and Natural Language Processing (NLP) to classify mental health conditions and provide meaningful support.
+
+The system predicts the mental health category of user input, performs sentiment analysis, explains predictions, generates AI-based advice, and includes therapy features and a resources section for mental well-being.
+
+---
 
 ## 🎯 Purpose of the Project
-The goal of this project is to assist in the early identification of mental health conditions based on text input. It demonstrates how AI, ML, and data analysis can be combined to build a helpful and user-friendly application.
+The goal of this project is to assist in the early identification of mental health conditions based on text input. It demonstrates how AI, Machine Learning, and NLP can be combined to build a helpful and user-friendly application.
+
+---
 
 ## ⚙️ How the System Works
-1. User enters a statement  
-2. ML model predicts mental health category (Depression, Anxiety, Stress, Normal, etc.)  
+1. User enters a statement or selects mood  
+2. ML model predicts mental health category (Depression, Stress, Anxiety, Normal)  
 3. Sentiment analysis determines emotional tone  
-4. LIME explains predictions  
-5. AI generates personalized advice  
-6. Resources section provides additional support  
+4. Rule-based correction improves prediction accuracy  
+5. AI generates personalized advice using Groq API  
+6. Therapy exercises and resources are suggested  
+
+---
 
 ## 🚀 Features
+
 - 🧠 Mental health prediction using ML model  
 - 📊 Sentiment analysis using VADER  
 - 🔍 Model explainability using LIME  
 - 🤖 AI-generated mental health advice  
-- 📈 Interactive Streamlit dashboard  
+- 🧘 Interactive therapy exercises (breathing, grounding, thought release)  
+- 🔐 User authentication with MongoDB and bcrypt  
+- 📈 Mood history tracking (with user consent)  
+- 🎮 Self-care streak and gamification  
+- 📊 Interactive Streamlit dashboard  
 - 💻 Command Line Interface (CLI) support  
-- 📊 Exploratory Data Analysis (EDA) with visual insights  
-- 📚 Resource section with apps, articles, and calming techniques  
+- 📚 Resources section for mental well-being  
 - ⚠️ Early warning system  
+
+---
 
 ## 🛠️ Technologies Used
 
@@ -30,104 +45,106 @@ The goal of this project is to assist in the early identification of mental heal
 - Streamlit  
 - Scikit-learn  
 - Pandas  
+- NumPy  
 - VADER Sentiment Analyzer  
 - LIME  
+- MongoDB  
+- bcrypt  
 - Groq API  
 
+---
+
 ## 📂 Project Structure
+
+```text
 MIND MESH/
 │
-├── data/ # Dataset and assets
-├── models/ # Trained ML model
-├── src/ # Core logic (ML, sentiment, AI, EDA)
-├── ui/ # Streamlit dashboard
-├── cli/ # Command line interface
-├── mentalhealth.ipynb/ # EDA 
+├── cli/
+│   └── predict_mental_health.py
+│
+├── data/
+│   ├── login_bg.png
+│   ├── logo.png
+│   └── mental_health.csv
+│
+├── models/
+│   └── mental_health_model.pkl
+│
+├── src/
+│   ├── auth.py
+│   ├── groq_helper.py
+│   ├── lime_explainer.py
+│   ├── sentiment_analysis.py
+│   ├── test_groq.py
+│   ├── therapy_components.py
+│   └── train_model.py
+│
+├── ui/
+│   └── streamlit_dashboard.py
+│
+├── .env
+├── .remembered_users.json
+├── mentalhealth.ipynb
+├── requirements.txt
 └── README.md
+⚙️ Setup Instructions
+1. Install Dependencies
+pip install -r requirements.txt
+2. Create .env File
 
-## ⚙️ Setup Instructions
+Create a .env file in the root folder:
 
-To run this project on your system, follow these steps:
-* First, install all required dependencies:
-```
-  pip install -r requirements.txt
-```
-* Next, set your Groq API key as an environment variable:
- For Windows PowerShell:
-```
-$env:GROQ_API_KEY="your_api_key_here"
-```
-## 🧪 Training the Model
-Make a folder models
+MONGO_URI=your_mongodb_connection_string
+GROQ_API_KEY=your_groq_api_key
 
-To train the machine learning model, navigate to the `src` folder and run:
-```
+⚠️ Important: Do NOT upload your .env file to GitHub.
+
+3. Train the Model
 cd src
 python train_model.py
-```
-This will train the model and save it inside the `models` folder.
-
-## ▶️ Running the Application
-
-To launch the Streamlit dashboard, go to the `ui` folder and run:
-```
+4. Run the Application
 cd ui
-python -m streamlit run streamlit_dashboard.py
-```
-Once the server starts, open your browser and visit: http://localhost:8501
+streamlit run streamlit_dashboard.py
 
-## 🤖 Testing AI Advice (Optional)
-To test the AI-based advice generation separately:
-```
-cd src
-python test_groq.py
-```
-## 💻 Command Line Interface (CLI)
+Open in browser:
 
-Run the model directly from terminal:
-```
+http://localhost:8501
+💻 Command Line Interface (CLI)
 cd cli
 python predict_mental_health.py "I feel very stressed and anxious"
-```
-**Example Output**
-Predicted Mental Health Condition: Anxiety
-Suggested Coping Mechanism: Try deep breathing, meditation, or journaling.
-
-## 📚 Resources Section
-The application includes a dedicated **Resources section** to support mental well-being.
-
-It provides:
-
-- 📱 Apps
-- 📄 Articles on stress and burnout  
-- 📚 Books on mental wellness  
-- 🎧 Podcasts  
-- 🏢 Mental health organizations  
-
-These resources offer techniques to **calm the mind, reduce anxiety, and improve overall well-being**.
-
-## 🤖 Test AI Advice (Optional)
-```
+🤖 Test AI Advice (Optional)
 cd src
 python test_groq.py
-```
-## 📊 Dataset
+📚 Resources Section
 
-Dataset sourced from Kaggle with labeled mental health statements such as Depression, Anxiety, Stress, and Normal.
-Dataset used : https://www.kaggle.com/datasets/suchintikasarkar/sentiment-analysis-for-mental-health
+The application includes a dedicated Resources section providing:
 
-## 📈 Model Performance
-- Accuracy: ~76%  
-- Performs well on common categories  
-- Can be improved for less frequent classes  
+📱 Mental health apps
+📄 Articles
+📚 Books
+🎧 Podcasts
+🏢 Organizations
 
-## ⚠️ Disclaimer
+These help users manage stress and improve well-being.
 
-This project is for educational purposes only and is not a substitute for professional medical advice. Please consult a healthcare professional if needed.
+📊 Dataset
 
-## 🔮 Future Scope
+Dataset sourced from Kaggle:
+https://www.kaggle.com/datasets/suchintikasarkar/sentiment-analysis-for-mental-health
 
-- Use advanced NLP models like BERT  
-- Add multilingual support  
-- Deploy as a web application   
-- Add real-time monitoring  
+📈 Model Performance
+Accuracy: ~94%
+Performs well on common categories
+Can be improved for rare classes
+⚠️ Disclaimer
+
+This project is for educational purposes only and is not a substitute for professional medical advice.
+
+🔮 Future Scope
+Use advanced NLP models like BERT
+Add multilingual support
+Deploy as a scalable web application
+Add real-time monitoring
+👩‍💻 Author
+
+Roshni Giri
