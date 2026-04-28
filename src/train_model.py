@@ -5,29 +5,42 @@ import string
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import classification_report, accuracy_score, f1_score
 
 # -------------------------------
-# Load and preprocess dataset
+# Paths
+# -------------------------------
+DATA_PATH = "../data/mental_health.csv"
+MODEL_PATH = "../models/mental_health_model.pkl"
+
+# -------------------------------
+# Load dataset
 # -------------------------------
 print("Loading dataset...")
-df = pd.read_csv("../data/mental_health.csv")
+df = pd.read_csv(DATA_PATH)
 
-# Drop missing values
 df = df.dropna()
 
-# Preprocessing: lowercase + remove punctuation
+# -------------------------------
+# Clean text
+# -------------------------------
 def clean_text(text):
-    text = text.lower()
+    text = str(text).lower()
     text = text.translate(str.maketrans("", "", string.punctuation))
+    text = " ".join(text.split())
     return text
 
 df["statement"] = df["statement"].apply(clean_text)
 
+# -------------------------------
 # Features and labels
+# -------------------------------
 X = df["statement"]
 y = df["status"]
+
+print("Dataset distribution:")
+print(y.value_counts())
 
 # -------------------------------
 # Train-test split
@@ -38,32 +51,63 @@ X_train, X_test, y_train, y_test = train_test_split(
     y,
     test_size=0.25,
     random_state=42,
-    stratify=y  # preserves class distribution
+    stratify=y
 )
 
 # -------------------------------
-# Build pipeline with balanced SVM
+# SVM Pipeline
 # -------------------------------
-print("Training model...")
 pipeline = Pipeline([
-    ("tfidf", TfidfVectorizer( max_features=7000,ngram_range=(1,2),stop_words="english")),
-    ("classifier", LinearSVC(class_weight='balanced'))  # important for imbalance
+    ("tfidf", TfidfVectorizer(
+        stop_words="english",
+        sublinear_tf=True
+    )),
+    ("classifier", LinearSVC(
+        class_weight="balanced",
+        dual="auto"
+    ))
 ])
 
+# -------------------------------
+# Grid Search for SVM tuning
+# -------------------------------
+params = {
+    "tfidf__max_features": [7000, 10000, 15000],
+    "tfidf__ngram_range": [(1, 1), (1, 2)],
+    "classifier__C": [0.1, 1.0, 10.0]
+}
 
-pipeline.fit(X_train, y_train)
+print("Training and tuning SVM model...")
+grid = GridSearchCV(
+    pipeline,
+    params,
+    cv=5,
+    scoring="f1_weighted",
+    n_jobs=-1
+)
+
+grid.fit(X_train, y_train)
+
+best_model = grid.best_estimator_
 
 # -------------------------------
-# Evaluate model
+# Evaluation
 # -------------------------------
-predictions = pipeline.predict(X_test)
-print("Model Evaluation")
+predictions = best_model.predict(X_test)
+
+accuracy = accuracy_score(y_test, predictions)
+weighted_f1 = f1_score(y_test, predictions, average="weighted")
+
+print("Best parameters:", grid.best_params_)
+print("Accuracy:", round(accuracy, 4))
+print("Weighted F1:", round(weighted_f1, 4))
+print("\nClassification Report:")
 print(classification_report(y_test, predictions))
 
 # -------------------------------
-# Save trained pipeline
+# Save model only
 # -------------------------------
-with open("../models/mental_health_model.pkl", "wb") as f:
-    pickle.dump(pipeline, f)
+with open(MODEL_PATH, "wb") as f:
+    pickle.dump(best_model, f)
 
-print("Model saved successfully")
+print("Model saved successfully at:", MODEL_PATH)
