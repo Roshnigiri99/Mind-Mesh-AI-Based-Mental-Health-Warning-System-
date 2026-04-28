@@ -97,7 +97,6 @@ Create a .env file in the root folder:
 MONGO_URI=your_mongodb_connection_string
 GROQ_API_KEY=your_groq_api_key
 
-⚠️ Important: Do NOT upload your .env file to GitHub.
 
 3. Train the Model
 cd src
