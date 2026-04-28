@@ -87,9 +87,12 @@ MIND MESH/
 ├── mentalhealth.ipynb
 ├── requirements.txt
 └── README.md
+
 ⚙️ Setup Instructions
 1. Install Dependencies
+'''
 pip install -r requirements.txt
+'''
 2. Create .env File
 
 Create a .env file in the root folder:
