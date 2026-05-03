@@ -30,8 +30,7 @@ The goal of this project is to assist in the early identification of mental heal
 - 🤖 AI-generated mental health advice  
 - 🧘 Interactive therapy exercises  
 - 🔐 User authentication using MongoDB and bcrypt  
-- 📈 Mood history tracking (with user consent)  
-- 🎮 Self-care streak and gamification  
+- 📈 Mood history tracking (with user consent)    
 - 📊 Streamlit dashboard  
 - 💻 Command Line Interface (CLI)  
 - 📚 Mental health resources section  
