@@ -27,7 +27,7 @@ The goal of this project is to assist in the early identification of mental heal
 - 🧠 Mental health prediction using ML model  
 - 📊 Sentiment analysis using VADER  
 - 🔍 Model explainability using LIME  
-- 🤖 AI-generated mental health advice  
+- 🤖 AI-generated mental health advice with Groq
 - 🧘 Interactive therapy exercises  
 - 🔐 User authentication using MongoDB and bcrypt  
 - 📈 Mood history tracking (with user consent)    
